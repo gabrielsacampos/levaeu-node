@@ -38,28 +38,42 @@ export async function establishmentsController(app: FastifyInstance){
   })
   
   app.post('/', async (request, reply) => {
+    try{
+      const createEstablishmentSchema = z.object({
+          name: z.string(),
+          cep: z.string(),
+          city: z.string(),
+          state: z.string(),
+          address: z.string(),
+          description: z.string(),
+          id_sponsor: z.string(),
+          establishment_type_id: z.string()
+      })
 
-        const createEstablishmentSchema = z.object({
-            name: z.string(),
-            address: z.string(),
-            description: z.string(),
-            id_sponsor: z.string()
-        })
-
-        const {name, address, description, id_sponsor} = createEstablishmentSchema.parse(request.body);
-
-        await db('establishments').insert(
-          {
-            id: randomUUID(),
-            name, 
-            address, 
-            description, 
-            id_sponsor
-          }
-        );
         
-        
-        return reply.status(201).send({message: 'Establishment created'});  
+      console.log(request.body)
+      const {name, address, description, id_sponsor, city, state, cep, establishment_type_id} = createEstablishmentSchema.parse(request.body);
+      const fullAddress = `${address}, ${city}, ${state}, ${cep}`
+
+
+      await db('establishments').insert(
+        {
+          id: randomUUID(),
+          name, 
+          tag: 'none',
+          address: fullAddress, 
+          description, 
+          id_sponsor,
+          id_type: establishment_type_id,
+        }
+      );
+      
+      
+      return reply.status(201).send({message: 'Establishment created'});  
+    }catch(err){
+      console.log(err);
+      return reply.status(400).send({message: "some error on server"});
+    }
       })
       
 }

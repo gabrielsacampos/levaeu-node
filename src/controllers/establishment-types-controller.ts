@@ -6,4 +6,5 @@ export async function establishmentTypesController(app: FastifyInstance){
         const establishmentTypes = await db('establishment_types').select('*');
         return { establishmentTypes }
     })
+
 }
