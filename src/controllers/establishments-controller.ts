@@ -65,14 +65,15 @@ export async function establishmentsController(app: FastifyInstance){
           description, 
           id_sponsor,
           id_type: establishment_type_id,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         }
       );
       
       
       return reply.status(201).send({message: 'Establishment created'});  
     }catch(err){
-      console.log(err);
-      return reply.status(400).send({message: "some error on server"});
+      return reply.status(500).send({message: "Internal server error"});
     }
       })
       
