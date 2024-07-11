@@ -1,11 +1,10 @@
-import { Tables } from 'knex/types/tables';
-import { User } from '../../models/User';
-
-type KnexUser = Tables['users']
-
-export class UserDbMapper {
-    static toDomain(raw: KnexUser): User {
-        return new User({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserDbMapper = void 0;
+const User_1 = require("../../models/User");
+class UserDbMapper {
+    static toDomain(raw) {
+        return new User_1.User({
             id: raw.id,
             name: raw.name,
             email: raw.email,
@@ -14,9 +13,9 @@ export class UserDbMapper {
             weekScore: raw.week_score,
             created_at: raw.created_at,
             updated_at: raw.updated_at
-        })
+        });
     }
-    static toDb(user: User) {
+    static toDb(user) {
         return {
             id: user.id,
             name: user.name,
@@ -26,6 +25,7 @@ export class UserDbMapper {
             week_score: user.weekScore,
             created_at: user.createdAt,
             updated_at: user.updatedAt
-        }
+        };
     }
 }
+exports.UserDbMapper = UserDbMapper;

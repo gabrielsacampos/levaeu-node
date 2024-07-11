@@ -14,11 +14,14 @@ export async function ratingsController(app: FastifyInstance){
                     r.updated_at AS date,
                     r.stars AS stars,
                     e.name as establishment_name,
+                    ei.image_url AS establishment_image,
                     r.created_at
                 FROM ratings AS r
                 INNER JOIN users AS u ON r.id_user = u.id
                 INNER JOIN establishments AS e ON r.id_establishment = e.id
+                INNER JOIN establishment_images AS ei ON e.id = ei.id_establishment
                 INNER JOIN user_categories AS uc ON uc.checkpoint = CAST(u.global_score AS INTEGER)
+                WHERE ei.cover = true
                 ORDER BY r.updated_at DESC;
             `)
         

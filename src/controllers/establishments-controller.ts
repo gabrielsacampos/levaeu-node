@@ -9,8 +9,14 @@ export async function establishmentsController(app: FastifyInstance){
   
   app.get('/topcards', async () => {
     const establishments = await db.raw(`
-      SELECT e.*, ei.*, AVG(r.stars) AS average_rating
+      SELECT 
+        e.*, 
+        ei.*, 
+        AVG(r.stars) AS average_rating,
+        u.name AS sponsor_name,
+        u.image_url AS sponsor_image
       FROM establishments AS e
+      INNER JOIN users AS u ON e.id_sponsor = u.id
       INNER JOIN establishment_images AS ei ON e.id = ei.id_establishment
       INNER JOIN ratings AS r ON e.id = r.id_establishment
       WHERE ei.cover = true AND e.tag != 'none'

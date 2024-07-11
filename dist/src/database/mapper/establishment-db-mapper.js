@@ -1,11 +1,10 @@
-import { Establishment } from "../../models/Establishment";
-import { Tables } from 'knex/types/tables';
-
-type KnexEstablishment = Tables['establishments']
-
-export class EstablishmentDbMapper {
-    static toDomain(establishment: KnexEstablishment): Establishment {
-        return new Establishment({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EstablishmentDbMapper = void 0;
+const Establishment_1 = require("../../models/Establishment");
+class EstablishmentDbMapper {
+    static toDomain(establishment) {
+        return new Establishment_1.Establishment({
             id: establishment.id,
             type: establishment.id_type,
             name: establishment.name,
@@ -17,9 +16,9 @@ export class EstablishmentDbMapper {
             userId: 0,
             createdAt: establishment.created_at,
             updatedAt: establishment.updated_at
-        })
+        });
     }
-    static toDb(establishment: Establishment): KnexEstablishment {
+    static toDb(establishment) {
         return {
             id: establishment.id,
             id_type: establishment.idType,
@@ -30,6 +29,7 @@ export class EstablishmentDbMapper {
             tag: establishment.tag,
             created_at: establishment.createdAt,
             updated_at: establishment.updatedAt
-        }
+        };
     }
 }
+exports.EstablishmentDbMapper = EstablishmentDbMapper;
